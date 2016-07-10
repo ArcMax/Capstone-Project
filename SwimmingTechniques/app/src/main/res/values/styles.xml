@@ -13,10 +13,11 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="android:actionBarSize">100dp</item>
     </style>
 
     <style name="MyMaterailTheme.Detail">
-        <item name="colorPrimaryDark">@android:color/transparent</item>
+
     </style>
 
 </resources>

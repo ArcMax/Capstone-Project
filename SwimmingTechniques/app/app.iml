@@ -95,7 +95,6 @@
     <orderEntry type="library" exported="" name="google-http-client-jackson2-1.22.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="google-oauth-client-1.22.0" level="project" />
-    <orderEntry type="library" exported="" name="palette-v7-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="jsr305-1.3.9" level="project" />
     <orderEntry type="library" exported="" name="design-22.2.1" level="project" />
   </component>

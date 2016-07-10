@@ -71,7 +71,6 @@ public class SwimListActivity extends AppCompatActivity implements ILoadSwimVide
 
     @Override
     public void onSwimVideoSelected(int position, SearchedVideoList videoList, Cursor cursor) {
-        Log.d(TAG, "interface" + videoList);
         Intent intent = new Intent(this, SwimDetailActivity.class);
         intent.putExtra(SwimDetailActivity.KEY_VIDEO_ID, videoList);
         startActivity(intent);

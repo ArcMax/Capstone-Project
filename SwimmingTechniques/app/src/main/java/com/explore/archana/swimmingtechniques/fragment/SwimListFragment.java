@@ -65,7 +65,7 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
         View view = inflater.inflate(R.layout.swimlist_layout, null);
         gridView = (GridView) view.findViewById(R.id.swim_gridView);
         gridView.setOnItemClickListener(this);
-        searchOnYoutube("swimming techniques");
+        searchOnYoutube(getResources().getString(R.string.search_freestyle));
         handler = new Handler();
         return view;
     }
@@ -90,17 +90,6 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
         GridImageAdapter gridImageAdapter = new GridImageAdapter(getActivity(), R.layout.grid_item_layout, searchedVideoLists);
         if(searchedVideoLists!=null)
             gridView.setAdapter(gridImageAdapter);
-    }
-
-    private void addClickListener() {
-       /* gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), PlayerActivity.class);
-                intent.putExtra("VIDEO_ID", searchedVideoLists.get(position).getId());
-                startActivity(intent);
-            }
-        });*/
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

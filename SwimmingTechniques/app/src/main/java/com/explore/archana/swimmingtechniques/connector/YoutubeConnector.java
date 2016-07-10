@@ -55,7 +55,7 @@ public class YoutubeConnector {
             videoQuery = youtube.videos().list("id,snippet,contentDetails,statistics");
             videoQuery.setKey(API_KEY);
             videoQuery.setMaxResults((long) 50);
-            videoQuery.setFields("items(id,snippet/title,snippet/thumbnails/high/url,contentDetails/duration,statistics/viewCount,statistics/likeCount,statistics/dislikeCount)");
+            videoQuery.setFields("items(id,snippet/title,snippet/thumbnails/high/url,snippet/description,snippet/channelTitle,contentDetails/duration,statistics/viewCount,statistics/likeCount,statistics/dislikeCount)");
 
         } catch (IOException e) {
             Log.d("YC", "Could not initialize: " + e.getMessage());
@@ -96,6 +96,10 @@ public class YoutubeConnector {
                 searchedVideoList.setViewCount(video.getStatistics().getViewCount().toString());
                 searchedVideoList.setTitle(video.getSnippet().getTitle());
                 searchedVideoList.setLikesCount(String.valueOf(video.getStatistics().getLikeCount()));
+                searchedVideoList.setDislikeCount(String.valueOf(video.getStatistics().getDislikeCount()));
+                searchedVideoList.setDescription(video.getSnippet().getDescription());
+                Log.d(TAG,"title"+video.getSnippet().getTitle());
+                searchedVideoList.setChannelTitle(video.getSnippet().getChannelTitle());
                 list.add(searchedVideoList);
             }
 

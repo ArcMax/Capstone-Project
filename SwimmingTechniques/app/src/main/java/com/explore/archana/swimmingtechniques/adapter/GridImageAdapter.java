@@ -2,6 +2,7 @@ package com.explore.archana.swimmingtechniques.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,17 @@ public class GridImageAdapter extends ArrayAdapter<SearchedVideoList> {
         }
 
         SearchedVideoList data = swimDataArrayList.get(position);
-        holder.views_textView.setText(data.getViewCount()+" "+"views"+" *   "+data.getLikesCount()+" "+"likes");
+        holder.views_textView.setText(data.getViewCount() + " " + "views" + " *   " + data.getLikesCount() + " " + "likes");
+
+        //To set duration of video
+       /* String fetched_duration = data.getDuration();
+        String[] parts = fetched_duration.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)|(?<=\\d)(?=\\D)|(?<=\\d)(?=\\D)");
+        Log.d("gridadapter", "strings" + "     " + parts[0] + " " + parts[1] + "  " + parts[3] + " " + parts[4]);
+        String part1 = parts[1];
+        String part2 = parts[3];
+        String duration = part1+":"+part2;
+        holder.duration_textview.setText(duration);*/
+
         holder.title_textview.setText(data.getTitle());
         Picasso.with(mContext).load(data.getThumbnailURL()).into(holder.imageView);
 
@@ -74,6 +85,5 @@ public class GridImageAdapter extends ArrayAdapter<SearchedVideoList> {
         CustomImageView imageView;
         TextView views_textView;
         TextView title_textview;
-
     }
 }

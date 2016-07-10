@@ -16,33 +16,12 @@ public class SearchedVideoList implements Parcelable {
     private String likesCount;
     private String dislikeCount;
     private String title;
-
-    public static final String KEY_ID = "id";
-    public static final String KEY_TUMBNAIL = "thumbnail";
-    public static final String KEY_DURATION = "duration";
-    public static final String KEY_VIEWCOUNT = "viewcount";
-    public static final String KEY_LIKECOUNT = "likecount";
-    public static final String KEY_DISLIKECOUNT = "dislikecount";
-    public static final String KEY_TITLE = "title";
+    private String description;
+    private String channelTitle;
 
     private SearchedVideoList mInfo;
 
-
-    public SearchedVideoList() {
-
-    }
-
-   /* public SearchedVideoList(String id, String thumbnailURL, String duration, String viewCount, String likesCount, String dislikeCount, String title) {
-        this.id = id;
-        this.thumbnailURL = thumbnailURL;
-        this.duration = duration;
-        this.viewCount = viewCount;
-        this.likesCount = likesCount;
-        this.dislikeCount = dislikeCount;
-        this.title = title;
-    }*/
-
-
+    public SearchedVideoList() {}
     public String getThumbnailURL() {
         return thumbnailURL;
     }
@@ -99,6 +78,22 @@ public class SearchedVideoList implements Parcelable {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getChannelTitle() {
+        return channelTitle;
+    }
+
+    public void setChannelTitle(String channelTitle) {
+        this.channelTitle = channelTitle;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -113,6 +108,8 @@ public class SearchedVideoList implements Parcelable {
         dest.writeString(likesCount);
         dest.writeString(dislikeCount);
         dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(channelTitle);
         dest.writeParcelable(mInfo,flags);
     }
 
@@ -124,6 +121,8 @@ public class SearchedVideoList implements Parcelable {
         likesCount = in.readString();
         dislikeCount = in.readString();
         title = in.readString();
+        description = in.readString();
+        channelTitle = in.readString();
         mInfo = in.readParcelable(SearchedVideoList.class.getClassLoader());
     }
 
@@ -133,10 +132,13 @@ public class SearchedVideoList implements Parcelable {
             SearchedVideoList list = new SearchedVideoList();
             list.id = source.readString();
             list.thumbnailURL = source.readString();
+            list.duration = source.readString();
+            list.viewCount = source.readString();
             list.likesCount = source.readString();
             list.dislikeCount = source.readString();
-            list.duration = source.readString();
             list.title = source.readString();
+            list.description = source.readString();
+            list.channelTitle = source.readString();
             return list;
         }
 
