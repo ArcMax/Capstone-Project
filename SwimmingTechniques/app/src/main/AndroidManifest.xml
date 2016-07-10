@@ -2,16 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.explore.archana.swimmingtechniques">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/MyMaterailTheme">
         <activity
-            android:name=".ItemListActivity"
+            android:name=".activity.SwimListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/MyMaterailTheme.Base">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,14 +20,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ItemDetailActivity"
-            android:label="@string/title_item_detail"
-            android:parentActivityName=".ItemListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.explore.archana.swimmingtechniques.ItemListActivity" />
-        </activity>
+            android:name=".activity.PlayerActivity"
+            android:label="@string/title_activity_player"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.SwimDetailActivity" />
     </application>
 
 </manifest>

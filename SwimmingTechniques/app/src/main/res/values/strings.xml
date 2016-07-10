@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">Swimming Techniques</string>
-    <string name="title_item_detail">Item Detail</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_player">PlayerActivity</string>
+
+    <string name="breathing">Breathing</string>
+    <string name="freestyle">Freestyle</string>
+    <string name="backstroke">Backstroke</string>
+    <string name="butterfly">Butterfly</string>
+    
+    <string name="search_breathing">breathing techniques for swimming beginners</string>
+    <string name="search_freestyle">swimming freestyle technique</string>
+    <string name="search_backstroke">swimming backstroke technique</string>
+    <string name="search_butterfly">swimming butterfly technique</string>
+
+    <string name="error_init_failure">Initialization failure: Unable to play video</string>
+    <string name="youtube_activity_fragment_placeholder">The YouTube Fragment can be placed anywhere
+        in a layout. You could use this space to describe the video, load some comments or anything else you can think of.
+    The benefit of using a Fragment is that your hosting Activity can be of any type.</string>
 </resources>

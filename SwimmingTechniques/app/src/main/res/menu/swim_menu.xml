@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Breathing"
+        android:orderInCategory="100"
+        android:title="Breathing"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Freestyle"
+        android:orderInCategory="100"
+        android:title="Freestyle"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Backstroke"
+        android:orderInCategory="100"
+        android:title="Backstroke" />
+    <item
+        android:id="@+id/ButterFly"
+        android:orderInCategory="100"
+        android:title="ButterFly" />
+</menu>
