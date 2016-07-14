@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.explore.archana.swimmingtechniques.R;
+import com.explore.archana.swimmingtechniques.application.AppConfig;
 import com.explore.archana.swimmingtechniques.model.SearchedVideoList;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
@@ -27,9 +28,9 @@ public class YoutubeConnector {
     private YouTube.Videos.List videoQuery;
 
     public static final String TAG = "YoutubeConnector";
-    public static final String API_KEY = "AIzaSyBJyuvBsZWp_R4lE-4yKWsH9hPr5-nSevc";
 
     public YoutubeConnector(Context context) {
+        Log.d(TAG,"YoutubeConnector");
         youtube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {
             @Override
             public void initialize(HttpRequest httpRequest) throws IOException {
@@ -43,7 +44,7 @@ public class YoutubeConnector {
             // Set your developer key from the Google Developers Console for
             // non-authenticated requests. See:
             // https://console.developers.google.com/
-            query.setKey(API_KEY);
+            query.setKey(AppConfig.GOOGLE_BROWSER_API_KEY);
             query.setMaxResults((long) 50);
             // Restrict the search results to only include videos. See:
             // https://developers.google.com/youtube/v3/docs/search/list#type
@@ -53,12 +54,13 @@ public class YoutubeConnector {
             query.setFields("items(id/videoId)");
 
             videoQuery = youtube.videos().list("id,snippet,contentDetails,statistics");
-            videoQuery.setKey(API_KEY);
+            videoQuery.setKey(AppConfig.GOOGLE_BROWSER_API_KEY);
             videoQuery.setMaxResults((long) 50);
-            videoQuery.setFields("items(id,snippet/title,snippet/thumbnails/high/url,snippet/description,snippet/channelTitle,contentDetails/duration,statistics/viewCount,statistics/likeCount,statistics/dislikeCount)");
+            videoQuery.setFields("items(id,snippet/title,snippet/thumbnails/high/url,snippet/description,snippet/channelTitle," +
+                    "contentDetails/duration,statistics/viewCount,statistics/likeCount,statistics/dislikeCount)");
 
         } catch (IOException e) {
-            Log.d("YC", "Could not initialize: " + e.getMessage());
+            Log.d(TAG, "Could not initialize: " + e.getMessage());
         }
     }
 
@@ -68,24 +70,20 @@ public class YoutubeConnector {
             // Call the API and print results.
             SearchListResponse response = query.execute();
             List<SearchResult> results = response.getItems();
-            Log.d(TAG,"search result"+results);
             List<String> videoIds = new ArrayList<String>();
 
             for (SearchResult result : results) {
                 videoIds.add(result.getId().getVideoId());
             }
-            Log.d(TAG,"list video ids"+videoIds);
             // Merge video IDs
             Joiner stringJoiner = Joiner.on(',');
             String videoId = stringJoiner.join(videoIds);
-            Log.d(TAG,"video ids"+videoId);
 
             // Call the YouTube Data API's youtube.videos.list method to
             // retrieve the resources that represent the specified videos.
             videoQuery.setId(videoId);
             VideoListResponse videoListResponse = videoQuery.execute();
             List<Video> videoList = videoListResponse.getItems();
-            Log.d(TAG,"video list"+videoList);
 
             List<SearchedVideoList> list = new ArrayList<>();
             for (Video video : videoList) {
@@ -98,10 +96,10 @@ public class YoutubeConnector {
                 searchedVideoList.setLikesCount(String.valueOf(video.getStatistics().getLikeCount()));
                 searchedVideoList.setDislikeCount(String.valueOf(video.getStatistics().getDislikeCount()));
                 searchedVideoList.setDescription(video.getSnippet().getDescription());
-                Log.d(TAG,"title"+video.getSnippet().getTitle());
                 searchedVideoList.setChannelTitle(video.getSnippet().getChannelTitle());
                 list.add(searchedVideoList);
             }
+            Log.d(TAG,"yc searched video list"+list.get(1).getTitle());
 
             return list;
         } catch (GoogleJsonResponseException e) {

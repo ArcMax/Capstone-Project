@@ -18,4 +18,14 @@
         android:id="@+id/ButterFly"
         android:orderInCategory="100"
         android:title="ButterFly" />
+    <item
+        android:id="@+id/Favorite"
+        android:orderInCategory="100"
+        android:title="Favorate" />
+
+    <item
+        android:id="@+id/poolLocation"
+        android:orderInCategory="100"
+        android:title="Pool Locations nearby"
+        app:showAsAction="never" />
 </menu>

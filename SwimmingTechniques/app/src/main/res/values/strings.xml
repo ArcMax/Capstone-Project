@@ -7,7 +7,8 @@
     <string name="freestyle">Freestyle</string>
     <string name="backstroke">Backstroke</string>
     <string name="butterfly">Butterfly</string>
-    <string name="favorate">favorate</string>
+    <string name="favorite">Favorite</string>
+    <string name="pool">Pool Location</string>
     
     <string name="search_breathing">breathing techniques for swimming beginners</string>
     <string name="search_freestyle">swimming freestyle technique</string>
@@ -15,7 +16,21 @@
     <string name="search_butterfly">swimming butterfly technique</string>
 
     <string name="error_init_failure">Initialization failure: Unable to play video</string>
-    <string name="youtube_activity_fragment_placeholder">The YouTube Fragment can be placed anywhere
-        in a layout. You could use this space to describe the video, load some comments or anything else you can think of.
-    The benefit of using a Fragment is that your hosting Activity can be of any type.</string>
+    <string name="google_map_apikey">AIzaSyBJyuvBsZWp_R4lE-4yKWsH9hPr5-nSevc</string>
+
+    <!--Content description strings-->
+    <string name="youtube_player">youtube player</string>
+    <string name="youtube_thumbnail_view">Youtube thumbnail view</string>
+    <string name="youtube_video_title">Youtube video title</string>
+    <string name="youtube_thubnail_overlay_title">thumbnail overlay title</string>
+    <string name="customised_framelayout">Customised Frame layout</string>
+    <string name="customised_scrollview">Customised scroll view</string>
+    <string name="youtube_Thumbnail_placeholder">Youtube thumbnail placeholder</string>
+    <string name="SwimDetailActivity_title">SwimDetailActivity title</string>
+    <string name="SwimDetailActivity_likesDislike_textview">SwimDetailActivity likeDislike</string>
+    <string name="SwimDetailActivity_description">SwimDetailActivity Description</string>
+    <string name="SwimDetailActivity_favorate">SwimDetailActivity Favorate</string>
+    <string name="SwimListActivity_gridview">SwimListActivity Gridview</string>
+    <string name="SwimDetailActivity_share">SwimDetailActivity Share</string>
+
 </resources>

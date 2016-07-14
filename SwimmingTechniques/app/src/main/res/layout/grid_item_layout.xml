@@ -7,18 +7,8 @@
         android:id="@+id/thumbnail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/youtube_thumbnail_view"
         android:scaleType="fitXY" />
-
-    <!-- <TextView
-         android:id="@+id/duration_text"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:gravity="top|right"
-         android:background="#55000000"
-         android:lines="1"
-         android:textColor="@android:color/white"
-         android:textSize="16sp"
-         android:textStyle="bold" />-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,8 +17,8 @@
         android:background="#55000000"
         android:orientation="horizontal"
         android:paddingBottom="12dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
         android:paddingTop="12dp">
 
         <TextView
@@ -39,7 +29,8 @@
             android:lines="1"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="@string/youtube_video_title"/>
 
         <TextView
             android:id="@+id/views_text"
@@ -48,7 +39,8 @@
             android:layout_below="@+id/title_text"
             android:gravity="left"
             android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:contentDescription="@string/youtube_thubnail_overlay_title"/>
 
 
     </RelativeLayout>

@@ -1,11 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-    </style>
-
-    <style name="MyMaterailTheme" parent="MyMaterailTheme.Base"/>
+    <style name="MyMaterailTheme" parent="MyMaterailTheme.Base" />
 
     <style name="MyMaterailTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">false</item>
@@ -14,10 +9,6 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:actionBarSize">100dp</item>
-    </style>
-
-    <style name="MyMaterailTheme.Detail">
-
     </style>
 
 </resources>

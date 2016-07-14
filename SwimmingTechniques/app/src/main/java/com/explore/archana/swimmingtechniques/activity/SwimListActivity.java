@@ -1,8 +1,6 @@
 package com.explore.archana.swimmingtechniques.activity;
 
 import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,14 +8,11 @@ import android.util.Log;
 
 import com.explore.archana.swimmingtechniques.R;
 import com.explore.archana.swimmingtechniques.fragment.SwimListFragment;
-import com.explore.archana.swimmingtechniques.fragment.YouTubeFragment;
-import com.explore.archana.swimmingtechniques.listener.ILoadSwimVideoDetail;
-import com.explore.archana.swimmingtechniques.model.SearchedVideoList;
 
 /**
  * Created by archana on 7/8/2016.
  */
-public class SwimListActivity extends AppCompatActivity implements ILoadSwimVideoDetail {
+public class SwimListActivity extends AppCompatActivity {
 
     public static final String TAG = "SwimListActivity";
     public static final String LISTFRAGMENT = "MLTAG";
@@ -28,23 +23,23 @@ public class SwimListActivity extends AppCompatActivity implements ILoadSwimVide
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.swim_list_activity);
+        setContentView(R.layout.swim_list_layout);
         listFragment = new SwimListFragment();
-        getFragmentManager().beginTransaction().add(R.id.swim_list_container, listFragment, LISTFRAGMENT).commit();
-        listFragment = (SwimListFragment) getFragmentManager().findFragmentByTag(LISTFRAGMENT);
+        getSupportFragmentManager().beginTransaction().add(R.id.swim_list_container, listFragment, LISTFRAGMENT).commit();
+        listFragment = (SwimListFragment) getSupportFragmentManager().findFragmentByTag(LISTFRAGMENT);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        getFragmentManager().putFragment(outState, LISTFRAGMENT, listFragment);
+        getSupportFragmentManager().putFragment(outState, LISTFRAGMENT, listFragment);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
-            listFragment = (SwimListFragment) getFragmentManager().getFragment(savedInstanceState, LISTFRAGMENT);
+            listFragment = (SwimListFragment) getSupportFragmentManager().getFragment(savedInstanceState, LISTFRAGMENT);
         }
     }
 
@@ -69,10 +64,4 @@ public class SwimListActivity extends AppCompatActivity implements ILoadSwimVide
         }
     }
 
-    @Override
-    public void onSwimVideoSelected(int position, SearchedVideoList videoList, Cursor cursor) {
-        Intent intent = new Intent(this, SwimDetailActivity.class);
-        intent.putExtra(SwimDetailActivity.KEY_VIDEO_ID, videoList);
-        startActivity(intent);
-    }
 }

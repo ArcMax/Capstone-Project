@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.explore.archana.swimmingtechniques.R;
 import com.explore.archana.swimmingtechniques.activity.SwimListActivity;
+import com.explore.archana.swimmingtechniques.application.AppConfig;
 import com.explore.archana.swimmingtechniques.connector.YoutubeConnector;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -38,7 +39,7 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
  * A sample implementation of a fragment extending YouTubePlayerFragment.
  * This will take care of most of the work necessary to load and play a video
  */
-public class YouTubeFragment extends YouTubePlayerSupportFragment implements YouTubePlayer.OnInitializedListener {
+public class SwimDetailFragment extends YouTubePlayerSupportFragment implements YouTubePlayer.OnInitializedListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
@@ -47,7 +48,7 @@ public class YouTubeFragment extends YouTubePlayerSupportFragment implements You
     private String mVideoId;
 
     //Empty constructor
-    public YouTubeFragment() {
+    public SwimDetailFragment() {
     }
 
     /**
@@ -57,7 +58,7 @@ public class YouTubeFragment extends YouTubePlayerSupportFragment implements You
      */
     public void setVideoId(final String videoId) {
         mVideoId = videoId;
-        initialize(YoutubeConnector.API_KEY, this);
+        initialize(AppConfig.GOOGLE_BROWSER_API_KEY, this);
     }
 
     @Override

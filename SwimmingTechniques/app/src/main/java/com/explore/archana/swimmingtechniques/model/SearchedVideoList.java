@@ -18,6 +18,7 @@ public class SearchedVideoList implements Parcelable {
     private String title;
     private String description;
     private String channelTitle;
+    private String favorateList;
 
     private SearchedVideoList mInfo;
 
@@ -94,6 +95,14 @@ public class SearchedVideoList implements Parcelable {
         this.channelTitle = channelTitle;
     }
 
+    public String getFavorateList() {
+        return favorateList;
+    }
+
+    public void setFavorateList(String favorateList) {
+        favorateList = favorateList;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -110,6 +119,7 @@ public class SearchedVideoList implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(channelTitle);
+        dest.writeString(favorateList);
         dest.writeParcelable(mInfo,flags);
     }
 
@@ -123,6 +133,7 @@ public class SearchedVideoList implements Parcelable {
         title = in.readString();
         description = in.readString();
         channelTitle = in.readString();
+        favorateList = in.readString();
         mInfo = in.readParcelable(SearchedVideoList.class.getClassLoader());
     }
 
@@ -139,6 +150,7 @@ public class SearchedVideoList implements Parcelable {
             list.title = source.readString();
             list.description = source.readString();
             list.channelTitle = source.readString();
+            list.favorateList = source.readString();
             return list;
         }
 
