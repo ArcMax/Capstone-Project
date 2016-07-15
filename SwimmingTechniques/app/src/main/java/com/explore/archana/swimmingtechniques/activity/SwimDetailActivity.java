@@ -36,6 +36,9 @@ import com.explore.archana.swimmingtechniques.R;
 import com.explore.archana.swimmingtechniques.data.YoutubeContract;
 import com.explore.archana.swimmingtechniques.fragment.SwimDetailFragment;
 import com.explore.archana.swimmingtechniques.fragment.SwimListFragment;
+import com.explore.archana.swimmingtechniques.utility.Constants;
+import com.google.android.youtube.player.internal.m;
+import com.google.android.youtube.player.internal.p;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,13 +54,15 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
     public static final String TAG = "SwimDetailActivity";
     private static final int CURSOR_DETAIL_LOADER_ID = 0;
     public static Uri mUri;
+    public static int value;
     private Cursor mDetailCursor;
+    private String swimID;
 
     private SwimDetailFragment swimDetailFragment;
     private TextView title;
     private TextView likeDislike;
     private TextView description;
-    private String channelTitle, id,videoId;
+    private String channelTitle, position,videoId;
     private FloatingActionButton floatingActionButton;
 
     @Override
@@ -66,11 +71,15 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.swim_detail_layout);
 
-        id = String.valueOf(getIntent().getIntExtra("click", 0));
-        Log.d(TAG,"mUri"+mUri);
+        position = String.valueOf(getIntent().getExtras().getInt("click"));
+        swimID = getIntent().getExtras().getString("cString");
+        Log.d(TAG, "mUri" + mUri + "  " + position+swimID);
 
         Bundle args = new Bundle();
-        args.putInt("position", getIntent().getIntExtra("click", 0));
+        args.putString("position", position);
+        args.putString("swimId",swimID);
+
+        Log.d(TAG,"args"+args.getString("position")+"swimid"+args.getString("swimId"));
         //transitions
         Slide slide = new Slide(Gravity.BOTTOM);
         slide.addTarget(R.id.description_layout);
@@ -130,13 +139,11 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
                     Log.d(TAG, "selected click" + false);
                 }
 
-
                 floatingActionButton.setImageResource(floatingActionButton.isSelected() ? R.mipmap.ic_heart : R.mipmap.ic_heart_dark);
                 Drawable drawable = floatingActionButton.getDrawable();
                 if (drawable instanceof Animatable) {
                     ((Animatable) drawable).start();
                 }
-
                 break;
 
             default:
@@ -147,11 +154,32 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String selection = null;
-        String[] selectionArgs = null;
-        if (args != null) {
-            selection = YoutubeContract.YoutubeSwimmingTechniques._ID + " = ?";
-            selectionArgs = new String[]{String.valueOf(getIntent().getIntExtra("click", 0))};
+        String [] selectionArgs = null;
+        if (args != null){
+            switch (value) {
+                case 0:
+                selection = YoutubeContract.YoutubeSwimmingTechniques.SWIM_ID + "=?";
+                selectionArgs = new String[]{String.valueOf(swimID)};
+                    break;
+                case 1:
+                    selection = YoutubeContract.Breathing.SWIM_ID + "=?";
+                    selectionArgs = new String[]{String.valueOf(swimID)};
+                    break;
+                case 2:
+                    selection = YoutubeContract.Backstroke.SWIM_ID + "=?";
+                    selectionArgs = new String[]{String.valueOf(swimID)};
+                    break;
+                case 3:
+                    selection = YoutubeContract.Butterfly.SWIM_ID + "=?";
+                    selectionArgs = new String[]{String.valueOf(swimID)};
+                    break;
+                case 4:
+                    selection = YoutubeContract.Favorite.SWIM_ID + "=?";
+                    selectionArgs = new String[]{String.valueOf(swimID)};
+                    break;
+            }
         }
+        Log.d(TAG,"cursor data"+mUri);
         return new CursorLoader(SwimDetailActivity.this,
                 mUri,
                 null,
@@ -163,29 +191,32 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mDetailCursor = data;
-        mDetailCursor.moveToFirst();
         DatabaseUtils.dumpCursor(data);
+        Log.d(TAG,"mDetail cursor:"+mDetailCursor+"mDetailCursor count:"+mDetailCursor.getCount());
+        if(mDetailCursor!=null && mDetailCursor.moveToFirst()) {
 
-        channelTitle = mDetailCursor.getString(9);
-        videoId = mDetailCursor.getString(1);
-        swimDetailFragment.setVideoId(videoId);
-        Log.d(TAG, "favo value" + mDetailCursor.getString(10));
-        floatingActionButton.setSelected(Boolean.parseBoolean(mDetailCursor.getString(10)));
-        floatingActionButton.setImageResource(floatingActionButton.isSelected() ? R.mipmap.ic_heart : R.mipmap.ic_heart_dark);
-        title.setText(mDetailCursor.getString(7));
-        likeDislike.setText("Likes: " + mDetailCursor.getString(5) + "  " + "Dislikes: " + mDetailCursor.getString(6));
-        description.setText(mDetailCursor.getString(8));
+            Log.d(TAG, "cursor data" + mDetailCursor + "  " + mDetailCursor.getString(1));
+            channelTitle = mDetailCursor.getString(9);
+            videoId = mDetailCursor.getString(1);
+            swimDetailFragment.setVideoId(videoId);
+            Log.d(TAG, "favo value" + mDetailCursor.getString(10));
+            floatingActionButton.setSelected(Boolean.parseBoolean(mDetailCursor.getString(10)));
+            floatingActionButton.setImageResource(floatingActionButton.isSelected() ? R.mipmap.ic_heart : R.mipmap.ic_heart_dark);
+            title.setText(mDetailCursor.getString(7));
+            likeDislike.setText("Likes: " + mDetailCursor.getString(5) + "  " + "Dislikes: " + mDetailCursor.getString(6));
+            description.setText(mDetailCursor.getString(8));
 
-        Log.d(TAG, "id" + mDetailCursor.getString(1));
-        Log.d(TAG, "videothumbnail" + mDetailCursor.getString(2));
-        Log.d(TAG, "duration" + mDetailCursor.getString(3));
-        Log.d(TAG, "viewcount" + mDetailCursor.getString(4));
-        Log.d(TAG, "likes" + mDetailCursor.getString(5));
-        Log.d(TAG, "dislikes" + mDetailCursor.getString(6));
-        Log.d(TAG, "title" + mDetailCursor.getString(7));
-        Log.d(TAG, "description" + mDetailCursor.getString(8));
-        Log.d(TAG, "channelid" + mDetailCursor.getString(9));
-        Log.d(TAG, "favorate" + mDetailCursor.getString(10));
+            Log.d(TAG, "id" + mDetailCursor.getString(1));
+            Log.d(TAG, "videothumbnail" + mDetailCursor.getString(2));
+            Log.d(TAG, "duration" + mDetailCursor.getString(3));
+            Log.d(TAG, "viewcount" + mDetailCursor.getString(4));
+            Log.d(TAG, "likes" + mDetailCursor.getString(5));
+            Log.d(TAG, "dislikes" + mDetailCursor.getString(6));
+            Log.d(TAG, "title" + mDetailCursor.getString(7));
+            Log.d(TAG, "description" + mDetailCursor.getString(8));
+            Log.d(TAG, "channelid" + mDetailCursor.getString(9));
+            Log.d(TAG, "favorate" + mDetailCursor.getString(10));
+        }
     }
 
     @Override
@@ -209,12 +240,12 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
 
         ContentValues updateOnlyFavoField = new ContentValues();
         updateOnlyFavoField.put(YoutubeContract.YoutubeSwimmingTechniques.SWIM_FAVORATELIST, aTrue);
-        String where = "_id" + "=" + id;
+        String where = "_id" + "=" + position;
         getContentResolver().update(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI, updateOnlyFavoField, where, null);
     }
 
     private void deleteFavo() {
-        getContentResolver().delete(YoutubeContract.Favorite.CONTENT_FAVORITE_URI,mDetailCursor.getString(1),null);
+        getContentResolver().delete(YoutubeContract.Favorite.CONTENT_FAVORITE_URI,YoutubeContract.Favorite.SWIM_ID + "=?", new String[]{String.valueOf(swimID)});
     }
 
 }

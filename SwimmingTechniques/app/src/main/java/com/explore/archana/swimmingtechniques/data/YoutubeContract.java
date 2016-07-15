@@ -74,6 +74,9 @@ public class YoutubeContract {
         public static Uri buildBreathUri(long id){
             return ContentUris.withAppendedId(CONTENT_BREATH_URI,id);
         }
+        public static Uri buildBreathUriWithSwimId(String SwimId) {
+            return CONTENT_BREATH_URI.buildUpon().appendPath(SwimId).build();
+        }
     }
 
     public static final class Backstroke implements BaseColumns {
@@ -100,6 +103,9 @@ public class YoutubeContract {
 
         public static Uri buildBackStrokeUri(long id){
             return ContentUris.withAppendedId(CONTENT_BACKSTROKE_URI,id);
+        }
+        public static Uri buildBackStrokeUriWithSwimId(String SwimId) {
+            return CONTENT_BACKSTROKE_URI.buildUpon().appendPath(SwimId).build();
         }
     }
 
@@ -128,6 +134,9 @@ public class YoutubeContract {
         public static Uri buildButterflyUri(long id){
             return ContentUris.withAppendedId(CONTENT_BUTTERFLY_URI,id);
         }
+        public static Uri buildButterflyUriWithSwimId(String SwimId) {
+            return CONTENT_BUTTERFLY_URI.buildUpon().appendPath(SwimId).build();
+        }
     }
     public static final class Favorite implements BaseColumns {
 
@@ -153,6 +162,9 @@ public class YoutubeContract {
 
         public static Uri buildFavoriteUri(long id){
             return ContentUris.withAppendedId(CONTENT_FAVORITE_URI,id);
+        }
+        public static Uri buildFavoriteUriWithSwimId(String SwimId) {
+            return CONTENT_FAVORITE_URI.buildUpon().appendPath(SwimId).build();
         }
     }
 }
