@@ -1,6 +1,8 @@
 package com.explore.archana.swimmingtechniques.fragment;
 
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,7 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -39,7 +40,6 @@ import com.explore.archana.swimmingtechniques.model.SearchedVideoList;
 import com.explore.archana.swimmingtechniques.sync.SwimTechniqueSyncAdapter;
 import com.explore.archana.swimmingtechniques.utility.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +52,6 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     private GridView gridView;
     private List<SearchedVideoList> searchedVideoLists;
     private GridImageAdapter gridImageAdapter;
-    private Uri uri;
     private int uriId;
 
     @Override
@@ -142,14 +141,16 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     @Override
+    @TargetApi(21)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
         // increment the position to match Database Ids indexed starting at 1
         uriId = position + 1;
         try {
             Intent intent = new Intent(getActivity(), SwimDetailActivity.class);
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle();
             intent.putExtra("click", position);
-            SwimDetailActivity.mUri = uri;
-            startActivity(intent);
+            getContext().startActivity(intent, bundle);
         } catch (ClassCastException e) {
         }
     }
@@ -277,7 +278,8 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                     insertData();
                 gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_ID);
                 updateAdapter();
-                uri = ContentUris.withAppendedId(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI, uriId);
+                Uri uri = ContentUris.withAppendedId(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI, uriId);
+                SwimDetailActivity.mUri = uri;
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI,
                         null,
@@ -293,7 +295,8 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                     insertBreathData();
                 gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_BREATH_ID);
                 updateAdapter();
-                uri = ContentUris.withAppendedId(YoutubeContract.Breathing.CONTENT_BREATH_URI, uriId);
+                Uri uriB = ContentUris.withAppendedId(YoutubeContract.Breathing.CONTENT_BREATH_URI, uriId);
+                SwimDetailActivity.mUri = uriB;
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.Breathing.CONTENT_BREATH_URI,
                         null,
@@ -309,7 +312,8 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                     insertBackStrokeData();
                 gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_BACKSTROKE);
                 updateAdapter();
-                uri = ContentUris.withAppendedId(YoutubeContract.Backstroke.CONTENT_BACKSTROKE_URI, uriId);
+                Uri uriC = ContentUris.withAppendedId(YoutubeContract.Backstroke.CONTENT_BACKSTROKE_URI, uriId);
+                SwimDetailActivity.mUri = uriC;
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.Backstroke.CONTENT_BACKSTROKE_URI,
                         null,
@@ -325,7 +329,8 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                     insertButterflyData();
                 gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_BUTTERFLY);
                 updateAdapter();
-                uri = ContentUris.withAppendedId(YoutubeContract.Butterfly.CONTENT_BUTTERFLY_URI, uriId);
+                Uri uriD = ContentUris.withAppendedId(YoutubeContract.Butterfly.CONTENT_BUTTERFLY_URI, uriId);
+                SwimDetailActivity.mUri = uriD;
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.Butterfly.CONTENT_BUTTERFLY_URI,
                         null,

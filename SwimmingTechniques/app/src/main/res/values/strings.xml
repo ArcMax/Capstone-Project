@@ -36,5 +36,7 @@
     <!-- SyncAdapter related -->
     <string name="sync_account_type">swimmingtechnique.explore.com</string>
     <string name="content_authority">com.explore.archana.swimmingtechniques.app</string>
+    
+    <string name="transition_photo">transition video</string>
 
 </resources>

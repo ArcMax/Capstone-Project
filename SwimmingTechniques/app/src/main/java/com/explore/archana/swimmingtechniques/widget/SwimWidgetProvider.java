@@ -19,7 +19,7 @@ import com.explore.archana.swimmingtechniques.activity.SwimListActivity;
 /**
  * Created by archana on 7/14/2016.
  */
-public class SwimBest extends AppWidgetProvider {
+public class SwimWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

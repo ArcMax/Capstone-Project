@@ -32,7 +32,8 @@ public class SwimTechDBHelper extends SQLiteOpenHelper {
                 YoutubeContract.YoutubeSwimmingTechniques.SWIM_TITLE + " TEXT NOT NULL, " +
                 YoutubeContract.YoutubeSwimmingTechniques.SWIM_DESCRIPTION + " TEXT NOT NULL, " +
                 YoutubeContract.YoutubeSwimmingTechniques.SWIM_CHANNELTITLE + " TEXT NOT NULL, " +
-                YoutubeContract.YoutubeSwimmingTechniques.SWIM_FAVORATELIST + " NULL);";
+                YoutubeContract.YoutubeSwimmingTechniques.SWIM_FAVORATELIST + " NULL, " + " UNIQUE (" +YoutubeContract.YoutubeSwimmingTechniques.SWIM_ID + ", " +
+                YoutubeContract.YoutubeSwimmingTechniques.SWIM_TITLE + ") ON CONFLICT REPLACE);";
 
         db.execSQL(CREATE_SWIMTECH_TABLE);
 
@@ -46,7 +47,8 @@ public class SwimTechDBHelper extends SQLiteOpenHelper {
                 YoutubeContract.Breathing.SWIM_TITLE + " TEXT NOT NULL, " +
                 YoutubeContract.Breathing.SWIM_DESCRIPTION + " TEXT NOT NULL, " +
                 YoutubeContract.Breathing.SWIM_CHANNELTITLE + " TEXT NOT NULL, " +
-                YoutubeContract.Breathing.SWIM_FAVORATELIST + " NULL);";
+                YoutubeContract.Breathing.SWIM_FAVORATELIST + " NULL, " + " UNIQUE (" +YoutubeContract.Breathing.SWIM_ID + ", " +
+                YoutubeContract.Breathing.SWIM_TITLE + ") ON CONFLICT REPLACE);";
 
         db.execSQL(CREATE_SWIMTECH_BREATH);
 
@@ -60,7 +62,8 @@ public class SwimTechDBHelper extends SQLiteOpenHelper {
                 YoutubeContract.Backstroke.SWIM_TITLE + " TEXT NOT NULL, " +
                 YoutubeContract.Backstroke.SWIM_DESCRIPTION + " TEXT NOT NULL, " +
                 YoutubeContract.Backstroke.SWIM_CHANNELTITLE + " TEXT NOT NULL, " +
-                YoutubeContract.Backstroke.SWIM_FAVORATELIST + " NULL);";
+                YoutubeContract.Backstroke.SWIM_FAVORATELIST + " NULL, " + " UNIQUE (" +YoutubeContract.Backstroke.SWIM_ID + ", " +
+                YoutubeContract.Backstroke.SWIM_TITLE + ") ON CONFLICT REPLACE);";
 
         db.execSQL(CREATE_SWIMTECH_BACKSTROKE);
 
@@ -74,7 +77,8 @@ public class SwimTechDBHelper extends SQLiteOpenHelper {
                 YoutubeContract.Butterfly.SWIM_TITLE + " TEXT NOT NULL, " +
                 YoutubeContract.Butterfly.SWIM_DESCRIPTION + " TEXT NOT NULL, " +
                 YoutubeContract.Butterfly.SWIM_CHANNELTITLE + " TEXT NOT NULL, " +
-                YoutubeContract.Butterfly.SWIM_FAVORATELIST + " NULL);";
+                YoutubeContract.Butterfly.SWIM_FAVORATELIST + " NULL, " + " UNIQUE (" +YoutubeContract.Butterfly.SWIM_ID + ", " +
+                YoutubeContract.Butterfly.SWIM_TITLE + ") ON CONFLICT REPLACE);";;
 
         db.execSQL(CREATE_SWIMTECH_BUTTERFLY);
 
@@ -88,7 +92,8 @@ public class SwimTechDBHelper extends SQLiteOpenHelper {
                 YoutubeContract.Favorite.SWIM_TITLE + " TEXT NOT NULL, " +
                 YoutubeContract.Favorite.SWIM_DESCRIPTION + " TEXT NOT NULL, " +
                 YoutubeContract.Favorite.SWIM_CHANNELTITLE + " TEXT NOT NULL, " +
-                YoutubeContract.Favorite.SWIM_FAVORATELIST + " NULL);";
+                YoutubeContract.Favorite.SWIM_FAVORATELIST + " NULL, " + " UNIQUE (" +YoutubeContract.Butterfly.SWIM_ID + ", " +
+                YoutubeContract.Butterfly.SWIM_TITLE + ") ON CONFLICT REPLACE);";
 
         db.execSQL(CREATE_SWIMTECH_FAVORITE);
 

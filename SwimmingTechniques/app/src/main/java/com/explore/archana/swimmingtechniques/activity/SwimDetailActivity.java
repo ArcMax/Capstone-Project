@@ -1,5 +1,6 @@
 package com.explore.archana.swimmingtechniques.activity;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -23,8 +24,12 @@ import android.support.v4.app.ShareCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.explore.archana.swimmingtechniques.R;
@@ -56,6 +61,7 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
     private FloatingActionButton floatingActionButton;
 
     @Override
+    @TargetApi(21)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.swim_detail_layout);
@@ -65,10 +71,15 @@ public class SwimDetailActivity extends AppCompatActivity implements View.OnClic
 
         Bundle args = new Bundle();
         args.putInt("position", getIntent().getIntExtra("click", 0));
+        //transitions
+        Slide slide = new Slide(Gravity.BOTTOM);
+        slide.addTarget(R.id.description_layout);
+        slide.setInterpolator(AnimationUtils.loadInterpolator(this, android.R.interpolator.linear_out_slow_in));
+        slide.setDuration(500);
+        getWindow().setEnterTransition(slide);
 
         if (channelTitle != null)
             getActionBar().setTitle("By: " + channelTitle);
-
         getSupportLoaderManager().initLoader(CURSOR_DETAIL_LOADER_ID, args, SwimDetailActivity.this);
 
         swimDetailFragment = (SwimDetailFragment) getSupportFragmentManager().findFragmentById(R.id.swim_detail_container);

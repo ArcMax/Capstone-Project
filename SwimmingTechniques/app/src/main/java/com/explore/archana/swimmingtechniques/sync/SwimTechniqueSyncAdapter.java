@@ -25,7 +25,7 @@ public class SwimTechniqueSyncAdapter extends AbstractThreadedSyncAdapter {
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
-    public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+    public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
 
     public static void initializeSyncAdapter(Context context) {
@@ -137,17 +137,16 @@ public class SwimTechniqueSyncAdapter extends AbstractThreadedSyncAdapter {
      */
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         Log.d(LOG_TAG, "configurePeriodicSync");
-        Account account = getSyncAccount(context);
         String authority = context.getString(R.string.content_authority);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // we can enable inexact timers in our periodic sync
             SyncRequest request = new SyncRequest.Builder().
                     syncPeriodic(syncInterval, flexTime).
-                    setSyncAdapter(account, authority).
+                    setSyncAdapter(getSyncAccount(context), authority).
                     setExtras(new Bundle()).build();
             ContentResolver.requestSync(request);
         } else {
-            ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
+            ContentResolver.addPeriodicSync(getSyncAccount(context), authority, new Bundle(), syncInterval);
         }
     }
 

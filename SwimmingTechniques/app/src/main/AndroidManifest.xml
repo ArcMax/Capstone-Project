@@ -60,7 +60,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_apikey" />
 
-        <receiver android:name=".widget.SwimBest">
+        <receiver android:name=".widget.SwimWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
