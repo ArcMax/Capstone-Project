@@ -43,6 +43,10 @@ public class YoutubeContract {
         public static Uri buildSwimTechUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI,id);
         }
+
+        public static Uri buildSwimUriWithSwimId(String SwimId) {
+            return CONTENT_URI.buildUpon().appendPath(SwimId).build();
+        }
     }
 
     public static final class Breathing implements BaseColumns {

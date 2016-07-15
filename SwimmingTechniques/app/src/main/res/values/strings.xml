@@ -33,4 +33,8 @@
     <string name="SwimListActivity_gridview">SwimListActivity Gridview</string>
     <string name="SwimDetailActivity_share">SwimDetailActivity Share</string>
 
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">swimmingtechnique.explore.com</string>
+    <string name="content_authority">com.explore.archana.swimmingtechniques.app</string>
+
 </resources>

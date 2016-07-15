@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.explore.archana.swimmingtechniques.R;
 import com.explore.archana.swimmingtechniques.activity.PoolMapActivity;
@@ -35,6 +36,8 @@ import com.explore.archana.swimmingtechniques.adapter.GridImageAdapter;
 import com.explore.archana.swimmingtechniques.connector.YoutubeConnector;
 import com.explore.archana.swimmingtechniques.data.YoutubeContract;
 import com.explore.archana.swimmingtechniques.model.SearchedVideoList;
+import com.explore.archana.swimmingtechniques.sync.SwimTechniqueSyncAdapter;
+import com.explore.archana.swimmingtechniques.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +51,9 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     public static final String TAG = "SwimListFragment";
     private GridView gridView;
     private List<SearchedVideoList> searchedVideoLists;
-    private static int CURSOR_LOADER_ID = 0;
-    private static int CURSOR_LOADER_BREATH_ID = 1;
-    private static int CURSOR_LOADER_BACKSTROKE = 2;
-    private static int CURSOR_LOADER_BUTTERFLY = 3;
-    private static int CURSOR_LOADER_FAVORITE = 4;
     private GridImageAdapter gridImageAdapter;
-    private Handler handler;
+    private Uri uri;
+    private int uriId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,23 +63,16 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        Log.d(TAG, "onActivityCreated");
-        if (isNetworkConnected()) {
-            new initiateLoader(getResources().getString(R.string.search_freestyle),CURSOR_LOADER_ID).execute();
-        } else
-            showDialog();
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "oncreateview");
         View view = inflater.inflate(R.layout.swimlist_layout, null);
         gridView = (GridView) view.findViewById(R.id.swim_gridView);
         gridView.setOnItemClickListener(this);
-        gridView.invalidateViews();
-        handler = new Handler();
+        if (isNetworkConnected()) {
+            new initiateLoader(getResources().getString(R.string.search_freestyle), Constants.CURSOR_LOADER_ID).execute();
+        } else {
+            getLoaderManager().restartLoader(Constants.CURSOR_LOADER_ID, null, SwimListFragment.this);
+        }
         return view;
     }
 
@@ -118,23 +110,23 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
             case R.id.Breathing:
                 Log.d(TAG, "Breathing");
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.breathing);
-                new initiateLoader(getActivity().getResources().getString(R.string.search_breathing),CURSOR_LOADER_BREATH_ID).execute();
+                new initiateLoader(getActivity().getResources().getString(R.string.search_breathing), Constants.CURSOR_LOADER_BREATH_ID).execute();
                 break;
             case R.id.Backstroke:
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.backstroke);
-                new initiateLoader(getActivity().getResources().getString(R.string.search_backstroke),CURSOR_LOADER_BACKSTROKE).execute();
+                new initiateLoader(getActivity().getResources().getString(R.string.search_backstroke), Constants.CURSOR_LOADER_BACKSTROKE).execute();
                 break;
             case R.id.ButterFly:
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.butterfly);
-                new initiateLoader(getActivity().getResources().getString(R.string.search_butterfly),CURSOR_LOADER_BUTTERFLY).execute();
+                new initiateLoader(getActivity().getResources().getString(R.string.search_butterfly), Constants.CURSOR_LOADER_BUTTERFLY).execute();
                 break;
             case R.id.Freestyle:
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.freestyle);
-                new initiateLoader(getActivity().getResources().getString(R.string.search_freestyle),CURSOR_LOADER_ID).execute();
+                new initiateLoader(getActivity().getResources().getString(R.string.search_freestyle), Constants.CURSOR_LOADER_ID).execute();
                 break;
             case R.id.Favorite:
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.favorite);
-                showFavoriteSwimTechnique();
+                getLoaderManager().restartLoader(Constants.CURSOR_LOADER_FAVORITE, null, SwimListFragment.this);
                 break;
             case R.id.poolLocation:
                 Intent intent = new Intent(getActivity().getApplicationContext(), PoolMapActivity.class);
@@ -142,33 +134,17 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                 break;
             default:
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
-                new initiateLoader(getActivity().getResources().getString(R.string.app_name),CURSOR_LOADER_ID).execute();
+                new initiateLoader(getActivity().getResources().getString(R.string.app_name), Constants.CURSOR_LOADER_ID).execute();
                 break;
         }
 
-        return super.
-
-                onOptionsItemSelected(item);
-    }
-
-    private void showFavoriteSwimTechnique() {
-       /* Cursor cursor= null;
-        Uri swim = Uri.parse(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_DIR_TYPE);
-        cursor = getActivity().getContentResolver().query(swim , null, null, null, "_id");
-        if (cursor != null) {
-            updateVideosFound();
-        } else {
-            Toast.makeText(getActivity(), "No Favorite movie added", Toast.LENGTH_LONG).show();
-        }*/
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // increment the position to match Database Ids indexed starting at 1
-        int uriId = position + 1;
-        // append Id to uri
-        Uri uri = ContentUris.withAppendedId(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI,
-                uriId);
+        uriId = position + 1;
         try {
             Intent intent = new Intent(getActivity(), SwimDetailActivity.class);
             intent.putExtra("click", position);
@@ -220,6 +196,7 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
             getActivity().getContentResolver().bulkInsert(YoutubeContract.Breathing.CONTENT_BREATH_URI, swimBreathArr);
         }
     }
+
     private void insertBackStrokeData() {
         if (searchedVideoLists != null) {
             ContentValues[] swimBackArr = new ContentValues[searchedVideoLists.size()];
@@ -240,6 +217,7 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
             getActivity().getContentResolver().bulkInsert(YoutubeContract.Backstroke.CONTENT_BACKSTROKE_URI, swimBackArr);
         }
     }
+
     private void insertButterflyData() {
         if (searchedVideoLists != null) {
             ContentValues[] swimButterArr = new ContentValues[searchedVideoLists.size()];
@@ -260,29 +238,8 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
             getActivity().getContentResolver().bulkInsert(YoutubeContract.Butterfly.CONTENT_BUTTERFLY_URI, swimButterArr);
         }
     }
-    private void insertFavoriteData() {
-        if (searchedVideoLists != null) {
-            ContentValues[] swimFavoArr = new ContentValues[searchedVideoLists.size()];
-            for (int i = 0; i < searchedVideoLists.size(); i++) {
-                swimFavoArr[i] = new ContentValues();
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_ID, searchedVideoLists.get(i).getId());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_THUMBNAIL, searchedVideoLists.get(i).getThumbnailURL());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_DURATION, searchedVideoLists.get(i).getDuration());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_VIEWCOUNT, searchedVideoLists.get(i).getViewCount());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_LIKECOUNT, searchedVideoLists.get(i).getLikesCount());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_DISLIKECOUNT, searchedVideoLists.get(i).getDislikeCount());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_TITLE, searchedVideoLists.get(i).getTitle());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_DESCRIPTION, searchedVideoLists.get(i).getDescription());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_CHANNELTITLE, searchedVideoLists.get(i).getChannelTitle());
-                swimFavoArr[i].put(YoutubeContract.Favorite.SWIM_FAVORATELIST, searchedVideoLists.get(i).getFavorateList());
-            }
-            Log.d(TAG, "insert Favorite data searchedVideoLists" + searchedVideoLists.get(1).getTitle());
-            getActivity().getContentResolver().bulkInsert(YoutubeContract.Favorite.CONTENT_FAVORITE_URI, swimFavoArr);
-        }
-    }
 
-
-    class initiateLoader extends AsyncTask<String,Void,List<SearchedVideoList>> {
+    class initiateLoader extends AsyncTask<String, Void, List<SearchedVideoList>> {
 
         private String search;
         private int ILoaderID = 0;
@@ -301,7 +258,7 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
 
         @Override
         protected void onPostExecute(List<SearchedVideoList> searchedVideoLists) {
-            Log.d(TAG,"list inside async task"+searchedVideoLists.get(1).getTitle());
+//            Log.d(TAG, "list inside async task" + searchedVideoLists.get(1).getTitle());
             getLoaderManager().initLoader(ILoaderID, null, SwimListFragment.this);
 
         }
@@ -314,12 +271,13 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
         switch (id) {
             case 0:
                 Log.d(TAG, "swimtech");
-               Cursor cursor = getActivity().getContentResolver().query(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI,
+                Cursor cursor = getActivity().getContentResolver().query(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI,
                         new String[]{YoutubeContract.YoutubeSwimmingTechniques._ID}, null, null, null);
                 if (cursor.getCount() == 0)
                     insertData();
-                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, CURSOR_LOADER_ID);
+                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_ID);
                 updateAdapter();
+                uri = ContentUris.withAppendedId(YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI, uriId);
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.YoutubeSwimmingTechniques.CONTENT_URI,
                         null,
@@ -333,8 +291,9 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                         new String[]{YoutubeContract.Breathing._ID}, null, null, null);
                 if (cursorB.getCount() == 0)
                     insertBreathData();
-                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, CURSOR_LOADER_BREATH_ID);
+                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_BREATH_ID);
                 updateAdapter();
+                uri = ContentUris.withAppendedId(YoutubeContract.Breathing.CONTENT_BREATH_URI, uriId);
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.Breathing.CONTENT_BREATH_URI,
                         null,
@@ -348,8 +307,9 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                         new String[]{YoutubeContract.Backstroke._ID}, null, null, null);
                 if (cursorC.getCount() == 0)
                     insertBackStrokeData();
-                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, CURSOR_LOADER_BACKSTROKE);
+                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_BACKSTROKE);
                 updateAdapter();
+                uri = ContentUris.withAppendedId(YoutubeContract.Backstroke.CONTENT_BACKSTROKE_URI, uriId);
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.Backstroke.CONTENT_BACKSTROKE_URI,
                         null,
@@ -363,8 +323,9 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                         new String[]{YoutubeContract.Butterfly._ID}, null, null, null);
                 if (cursorD.getCount() == 0)
                     insertButterflyData();
-                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, CURSOR_LOADER_BUTTERFLY);
+                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_BUTTERFLY);
                 updateAdapter();
+                uri = ContentUris.withAppendedId(YoutubeContract.Butterfly.CONTENT_BUTTERFLY_URI, uriId);
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.Butterfly.CONTENT_BUTTERFLY_URI,
                         null,
@@ -376,10 +337,12 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
                 Log.d(TAG, "favorite");
                 Cursor cursorE = getActivity().getContentResolver().query(YoutubeContract.Favorite.CONTENT_FAVORITE_URI,
                         new String[]{YoutubeContract.Favorite._ID}, null, null, null);
-                if (cursorE.getCount() == 0)
-                    insertFavoriteData();
-                gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, CURSOR_LOADER_FAVORITE);
-                updateAdapter();
+                if (cursorE.getCount() > 0) {
+                    gridImageAdapter = new GridImageAdapter(getActivity(), null, 0, Constants.CURSOR_LOADER_FAVORITE);
+                    updateAdapter();
+                } else {
+                    Toast.makeText(getActivity(), "No Favorite movie added", Toast.LENGTH_LONG).show();
+                }
                 loader = new CursorLoader(getActivity(),
                         YoutubeContract.Favorite.CONTENT_FAVORITE_URI,
                         null,
@@ -395,7 +358,6 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(TAG, "onLoadFinished");
         gridImageAdapter.swapCursor(data);
-        gridImageAdapter.notifyDataSetChanged();
 
     }
 

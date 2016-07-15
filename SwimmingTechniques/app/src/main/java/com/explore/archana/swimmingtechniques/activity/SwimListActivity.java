@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.explore.archana.swimmingtechniques.R;
 import com.explore.archana.swimmingtechniques.fragment.SwimListFragment;
+import com.explore.archana.swimmingtechniques.sync.SwimTechniqueSyncAdapter;
 
 /**
  * Created by archana on 7/8/2016.
@@ -27,6 +28,8 @@ public class SwimListActivity extends AppCompatActivity {
         listFragment = new SwimListFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.swim_list_container, listFragment, LISTFRAGMENT).commit();
         listFragment = (SwimListFragment) getSupportFragmentManager().findFragmentByTag(LISTFRAGMENT);
+
+        SwimTechniqueSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override

@@ -314,7 +314,7 @@ public class SwimTechProvider extends ContentProvider {
                 break;
             case YOUTUBE_FAVORITE_WITH_ID:
                 numDeleted = db.delete(YoutubeContract.Favorite.TABLE_SWIM_FAVORITE,
-                        YoutubeContract.Favorite._ID + " = ?",
+                        YoutubeContract.Favorite.SWIM_ID + " = ?",
                         new String[]{String.valueOf(ContentUris.parseId(uri))});
                 // reset _ID
                 db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +

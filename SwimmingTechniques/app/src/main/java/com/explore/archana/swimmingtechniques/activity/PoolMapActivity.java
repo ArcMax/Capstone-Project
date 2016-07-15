@@ -125,17 +125,17 @@ public class PoolMapActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void loadNearByPlaces(double latitude, double longitude) {
-//YOU Can change this type at your own will, e.g hospital, cafe, restaurant.... and see how it all works
-        String type = "swimming_pools";
+        //YOU Can change this type at your own will, e.g hospital, cafe, restaurant.... and see how it all works
+        String type = "gym";
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
         googlePlacesUrl.append("&radius=").append(AppConfig.PROXIMITY_RADIUS);
         googlePlacesUrl.append("&types=").append(type);
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + AppConfig.GOOGLE_BROWSER_API_KEY);
-        Log.d(TAG,"Googleplaces URl"+googlePlacesUrl);
+        Log.d(TAG, "Googleplaces URl" + googlePlacesUrl);
 
-        JsonObjectRequest request = new JsonObjectRequest(googlePlacesUrl.toString(),null,
+        JsonObjectRequest request = new JsonObjectRequest(googlePlacesUrl.toString(), null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject result) {
@@ -144,7 +144,8 @@ public class PoolMapActivity extends AppCompatActivity implements OnMapReadyCall
                     }
                 },
                 new Response.ErrorListener() {
-                    @Override                    public void onErrorResponse(VolleyError error) {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "onErrorResponse: Error= " + error);
                         Log.e(TAG, "onErrorResponse: Error= " + error.getMessage());
                     }
