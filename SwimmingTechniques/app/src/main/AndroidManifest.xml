@@ -60,19 +60,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_apikey" />
 
-        <receiver android:name=".widget.SwimWidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_provider" />
-        </receiver>
-
         <provider
             android:name=".data.SwimTechProvider"
             android:authorities="com.explore.archana.swimmingtechniques.app"
-            android:exported="false"
+            android:exported="true"
             android:syncable="true" />
 
         <!-- SyncAdapter's dummy authentication service -->
@@ -96,6 +87,21 @@
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
+
         </service>
+        <receiver android:name=".widget.CollectionWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/collection_widget_info" />
+        </receiver>
+
+        <!-- 2. The service that will send our collection data to our widget. It needs the
+                permission android.permission.BIND_REMOTEVIEWS -->
+        <service android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 </manifest>

@@ -38,5 +38,6 @@
     <string name="content_authority">com.explore.archana.swimmingtechniques.app</string>
     
     <string name="transition_photo">transition video</string>
+    <string name="empty">no favorite swimming technique</string>
 
 </resources>

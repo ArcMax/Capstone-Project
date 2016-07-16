@@ -27,6 +27,14 @@ android {
         preDexLibraries = false
         javaMaxHeapSize "4g"
     }
+    signingConfigs {
+        release {
+            keyAlias 'alias'
+            keyPassword 'password'
+            storeFile file('C:\\Users\\archana\\Favorites\\android.jks')
+            storePassword 'password'
+        }
+    }
 }
 
 dependencies {

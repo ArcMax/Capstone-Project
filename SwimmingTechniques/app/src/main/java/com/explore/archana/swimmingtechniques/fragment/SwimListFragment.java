@@ -367,7 +367,6 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(TAG, "onLoadFinished");
         gridImageAdapter.swapCursor(data);
-
     }
 
     @Override

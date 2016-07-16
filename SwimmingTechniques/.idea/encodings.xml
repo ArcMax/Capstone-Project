@@ -5,7 +5,12 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/explore/archana/swimmingtechniques/coustomviews/DrawInsetsFrameLayout.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/explore/archana/swimmingtechniques/coustomviews/MaxWidthLinearLayout.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/explore/archana/swimmingtechniques/coustomviews/ObservableScrollView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/explore/archana/swimmingtechniques/widget/CollectionWidget.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/explore/archana/swimmingtechniques/widget/WidgetDataProvider.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/explore/archana/swimmingtechniques/widget/WidgetService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/anim-v21" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/collection_widget.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/xml/collection_widget_info.xml" charset="UTF-8" />
   </component>
 </project>

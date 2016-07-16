@@ -163,8 +163,8 @@ public class YoutubeContract {
         public static Uri buildFavoriteUri(long id){
             return ContentUris.withAppendedId(CONTENT_FAVORITE_URI,id);
         }
-        public static Uri buildFavoriteUriWithSwimId(String SwimId) {
-            return CONTENT_FAVORITE_URI.buildUpon().appendPath(SwimId).build();
+        public static Uri buildFavoriteUriWithSwimId() {
+            return CONTENT_FAVORITE_URI.buildUpon().appendPath("_id").build();
         }
     }
 }
