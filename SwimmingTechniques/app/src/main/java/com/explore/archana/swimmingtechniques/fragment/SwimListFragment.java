@@ -1,12 +1,10 @@
 package com.explore.archana.swimmingtechniques.fragment;
 
-
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -37,7 +35,6 @@ import com.explore.archana.swimmingtechniques.adapter.GridImageAdapter;
 import com.explore.archana.swimmingtechniques.connector.YoutubeConnector;
 import com.explore.archana.swimmingtechniques.data.YoutubeContract;
 import com.explore.archana.swimmingtechniques.model.SearchedVideoList;
-import com.explore.archana.swimmingtechniques.sync.SwimTechniqueSyncAdapter;
 import com.explore.archana.swimmingtechniques.utility.Constants;
 
 import java.util.List;
@@ -45,7 +42,7 @@ import java.util.List;
 /**
  * Created by archana on 7/8/2016.
  */
-
+@SuppressWarnings("unchecked")
 public class SwimListFragment extends Fragment implements AdapterView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String TAG = "SwimListFragment";
@@ -53,7 +50,6 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     private List<SearchedVideoList> searchedVideoLists;
     private GridImageAdapter gridImageAdapter;
     private int mLoaderID;
-    private String uriString;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,15 +73,9 @@ public class SwimListFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     private void showDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setTitle(getResources().getString(R.string.app_name));
-        alertDialogBuilder.setMessage("Check Internet connection");
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getActivity().finish();
-            }
-        });
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setTitle(getContext().getResources().getString(R.string.app_name));
+        alertDialogBuilder.setMessage(getContext().getResources().getString(R.string.check_internet));
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

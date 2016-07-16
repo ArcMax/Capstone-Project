@@ -29,10 +29,10 @@ android {
     }
     signingConfigs {
         release {
-            keyAlias 'alias'
-            keyPassword 'password'
-            storeFile file('C:\\Users\\archana\\Favorites\\android.jks')
-            storePassword 'password'
+            storeFile file("C:/Users/archana/Documents/StudioProjects/NanoCapstone/SwimmingTechniques/app/android.jks")
+            storePassword "android"
+            keyAlias "AndroidDKey"
+            keyPassword "android"
         }
     }
 }

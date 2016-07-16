@@ -40,4 +40,6 @@
     <string name="transition_photo">transition video</string>
     <string name="empty">no favorite swimming technique</string>
 
+    <string name="check_internet">Please check for Internet connection</string>
+
 </resources>
